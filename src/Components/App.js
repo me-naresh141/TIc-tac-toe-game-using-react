@@ -9,13 +9,19 @@ import Confetti from "react-confetti";
 
 const App = () => {
   const [state, setstate] = useState(Array(9).fill(null));
+
   const [isXTurn, setIsXTurn] = useState(true);
+
   // confetti animation
   const [isConfetti, setIsConfetti] = useState(false);
+
   //  score state
   const [player1, setPlayer1] = useState(0);
   const [tie, setTie] = useState(0);
   const [player2, setPlayer2] = useState(0);
+
+  const [computerScore, setComputerScore] = useState(0);
+
   // select computer state
   const [computer, setComputer] = useState(false);
 
@@ -33,8 +39,10 @@ const App = () => {
 
   const HandleComputer = () => {
     setComputer(!computer);
+    setPlayer1(0);
+    setPlayer2(0);
+    setstate(Array(9).fill(null));
   };
-
   return (
     <div className="parent-div">
       {isConfetti && <Confetti />}
@@ -52,6 +60,8 @@ const App = () => {
         setPlayer1={setPlayer1}
         setPlayer2={setPlayer2}
         setTie={setTie}
+        setComputer={setComputer}
+        computer={computer}
       />
       <PlayerInfo
         handleReset={handleReset}

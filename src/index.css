@@ -51,7 +51,6 @@ header {
 
 .playerInfo-div {
   display: flex;
-  border: 2px solid orange;
   justify-content: center;
 }
 .playerHeadingDiv {
@@ -68,6 +67,6 @@ button {
 
 strong {
   color: rgba(255, 0, 0, 0.543);
-  font-size: 3rem;
+  font-size: 2rem;
   text-decoration: underline;
 }

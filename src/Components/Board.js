@@ -13,16 +13,25 @@ const Board = ({
   player2,
   tie,
   setIsConfetti,
+  setComputer,
+  computer,
 }) => {
   // handleClick function
   const handleClick = (index) => {
     if (state[index] !== null) {
       return;
     }
-    let stateCopy = [...state];
-    stateCopy[index] = isXTurn ? "X" : "0";
-    setstate(stateCopy);
 
+    let stateCopy = [...state];
+
+    stateCopy[index] = isXTurn ? "X" : "0";
+
+    if (isXTurn && computer) {
+      stateCopy[index] = "X";
+      setstate(stateCopy);
+      setIsXTurn(!isXTurn);
+    }
+    setstate(stateCopy);
     setIsXTurn(!isXTurn);
   };
 
@@ -56,7 +65,6 @@ const Board = ({
 
   // handlePlayAgain function
   const handlePlayAgain = () => {
-    // console.log("okk");
     setstate(Array(9).fill(null));
     setIsXTurn(true);
     setIsConfetti(false);
@@ -75,10 +83,18 @@ const Board = ({
   // PlayerTime function
   function PlayerTime({ isXTurn }) {
     return (
-      <h1>
-        {" "}
-        Player{isXTurn ? <strong>1</strong> : <strong>2</strong>} is move
-      </h1>
+      <>
+        <h1>
+          {" "}
+          Player
+          {isXTurn ? (
+            <strong>1</strong>
+          ) : (
+            <strong>{computer ? "Computer" : "2"}</strong>
+          )}{" "}
+          is move Player
+        </h1>
+      </>
     );
   }
 
@@ -130,7 +146,6 @@ const Board = ({
     );
   }
   // usseEffect
-
   useEffect(() => {
     if (isWinner) {
       {
@@ -142,7 +157,28 @@ const Board = ({
     if (tieMatch) {
       setTie(tie + 1);
     }
-  }, [isXTurn, state]);
+
+    let stateCopy = [...state];
+
+    let filterIndex = [];
+
+    if (computer) {
+      setTimeout(() => {
+        if (!isXTurn) {
+          let filterI = stateCopy.filter((elm, index) => {
+            if (!elm) {
+              filterIndex.push(index);
+            }
+          });
+
+          let randomIndex = Math.floor(Math.random() * filterIndex.length);
+          stateCopy[filterIndex[randomIndex]] = "0";
+          setstate(stateCopy);
+          setIsXTurn(!isXTurn);
+        }
+      }, 1000);
+    }
+  }, [isXTurn, computer]);
 
   return (
     <>
